@@ -1,0 +1,8 @@
+{
+    "python.pythonPath": "${workspaceFolder}\\venv\\Scripts\\python.exe",
+    "code-runner.executorMap": 
+    { 
+        "python": "F:\\Documents\\GitHub\\code.nerdhosting.dk\\DawgBot\\venv\\Scripts\\python.exe"
+    }
+}
+
