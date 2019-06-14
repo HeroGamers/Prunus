@@ -19,7 +19,8 @@ async def on_ready():
     channel = bot.get_channel(int(os.getenv('botlog')))
     await channel.send("**[Info]** The bot has started!")
     print("\n")
-    await bot.change_presence(game=discord.Game(type=1, name="Hero's channel on Twitch!", url="https://www.twitch.tv/herogamersdk", twitch_name="herogamersdk"))
+    stream = discord.Streaming(name="Hero's channel on Twitch!", url="https://www.twitch.tv/herogamersdk", twitch_name="herogamersdk")
+    await bot.change_presence(activity=stream)
 
 @bot.event
 async def on_command_error(ctx: commands.Context, error):

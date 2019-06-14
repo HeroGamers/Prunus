@@ -1,2 +1,2 @@
 # HBot
-Hero Central's Official Discord Bot
+Treeland's Official Discord Bot
