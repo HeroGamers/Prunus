@@ -44,6 +44,7 @@ async def on_command_error(ctx: commands.Context, error):
         await ctx.send("Something went wrong while executing that command... Sorry!")
         channel = bot.get_channel(int(os.getenv('botlog')))
         await channel.send("**[ERROR]** %s" % error)
+        print("**[ERROR]** %s" % error)
 
 @bot.event
 async def on_guild_join(guild):
@@ -68,7 +69,7 @@ async def on_member_update(before, after):
             channel = bot.get_channel(221998962247204864)
 
             embed = discord.Embed(title="Welcome to Treeland, " + after.display_name, color=discord.Color.from_rgb(255, 105, 180), timestamp=datetime.datetime.now(),
-                description=emote + " " + after.display_name + " just became a member of Treeland! Please welcome them!")
+                description=emote + " <@" + str(after.id) + "> just became a member of Treeland! Please welcome them!")
             embed.set_footer(text="New Member of Treeland", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
             embed.set_thumbnail(url=after.avatar_url)
             await channel.send(embed=embed)
