@@ -12,7 +12,8 @@ import config
 bot = commands.Bot(command_prefix=os.getenv('prefix'), description='I guess this is a bot, it does bot things.')
 
 startup_extensions = ["essentials",
-                      "info"]
+                      "info",
+                      "Tasks"]
 
 @bot.event
 async def on_ready():
@@ -63,7 +64,7 @@ async def on_member_update(before, after):
             
             channel = bot.get_channel(221998962247204864)
 
-            embed = discord.Embed(title="Welcome to Treeland, " + after.display_name, color=discord.Color.from_rgb(255, 105, 180), timestamp=datetime.datetime.now(),
+            embed = discord.Embed(title="Welcome to Treeland, " + after.display_name, color=discord.Color.from_rgb(255, 105, 180), timestamp=datetime.datetime.utcnow(),
                 description=emote + " <@" + str(after.id) + "> just became a member of Treeland! Please welcome them!")
             embed.set_footer(text="New Member of Treeland", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
             embed.set_thumbnail(url=after.avatar_url)

@@ -3,6 +3,7 @@
 **/.vs
 **/.vscode
 .idea/
+prunusDB.db
 
 # HBot Custom Ignores
 config.py
