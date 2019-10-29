@@ -12,7 +12,8 @@ import config
 bot = commands.Bot(command_prefix=os.getenv('prefix'), description='I guess this is a bot, it does bot things.')
 
 startup_extensions = ["essentials",
-                      "info"]
+                      "info",
+                      "Tasks"]
 
 @bot.event
 async def on_ready():
