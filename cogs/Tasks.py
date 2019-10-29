@@ -14,35 +14,78 @@ class Tasks(commands.Cog):
     def cog_unload(self):
         self.treelanderOfTheDay.cancel()
 
-    @tasks.loop(seconds=5.0)
+    @tasks.loop(seconds=30.0)
     async def treelanderOfTheDay(self):
+        logging.logDebug("Treelander of the day Task")
         totD_id = PrunusDB.get_currentTreelanderOfTheDay()
+        logging.logDebug("totD_id: " + totD_id)
+        dt = datetime.datetime.now()
+        logging.logDebug("dt: " + str(dt))
         if totD_id == "" or len(totD_id) == 0:
-            await self.newTreelanderOfTheDay(self)
-        elif datetime.datetime.now().time() > datetime.time(12):
-            current_treelanderOfTheDay_TimeStamp = datetime.datetime.parse(PrunusDB.get_currentTreelanderOfTheDayTime())
-            if (datetime.datetime.now() - current_treelanderOfTheDay_TimeStamp) > 20:
-                await self.newTreelanderOfTheDay(self)
+            logging.logDebug("aaaaaaa")
+            await self.newTreelanderOfTheDay(totD_id)
+        elif dt.time() > datetime.time(12):
+            logging.logDebug("it is over 12. Time now is: " + str(datetime.datetime.now().time()))
+            treelanderOfTheDayTime = PrunusDB.get_currentTreelanderOfTheDayTime()
+            logging.logDebug(treelanderOfTheDayTime)
+            current_treelanderOfTheDay_TimeStamp = datetime.datetime.strptime(str(treelanderOfTheDayTime),
+                                                                              "%Y-%m-%d %H:%M:%S.%f")
+            logging.logDebug("yes")
+            logging.logDebug(str(current_treelanderOfTheDay_TimeStamp))
+
+            timeElapsed = dt - current_treelanderOfTheDay_TimeStamp
+            logging.logDebug(timeElapsed)
+            timeElapsed_seconds = timeElapsed.total_seconds()
+            logging.logDebug(timeElapsed_seconds)
+            timeElapsed_hours = divmod(timeElapsed.total_seconds(), 3600)[0]
+            logging.logDebug(timeElapsed_hours)
+            if timeElapsed_hours > 20:
+                logging.logDebug("it was now over 20 hours ago")
+                await self.newTreelanderOfTheDay(totD_id)
+        else:
+            logging.logDebug("suck")
+
+    @treelanderOfTheDay.before_loop
+    async def before_loop(self):
+        logging.logDebug('waiting...')
+        await self.bot.wait_until_ready()
 
     async def newTreelanderOfTheDay(self, totD_id=""):
-        treeland = self.bot.get_guild(self, 221996778092888065)
+        logging.logDebug('newtreelanderoftheday')
+        logging.logDebug("nice totD_id: " + totD_id)
+        treeland = self.bot.get_guild(221996778092888065)
+        logging.logDebug('got treeland')
         treelanders = treeland.members
-        notFound = True
-        while notFound:
+        logging.logDebug('got members')
+        while True:
+            logging.logDebug('while loop')
             user = random.choice(treelanders)
-            if totD_id == "" or len(totD_id) == 0:
-                notFound = False
-            elif totD_id == user.id:
-                logging.log("User is already treelander of the day", self.bot, "DEBUG")
+            logging.logDebug('got random user: ' + user.name)
+            if user.bot:
+                logging.logDebug("user is a bot")
+            elif totD_id == "" or len(totD_id) == 0:
+                logging.logDebug('todays treelander id is 0, found new treelander of the day')
+                break
+            elif totD_id == str(user.id):
+                logging.logDebug("User is already treelander of the day")
             else:
-                notFound = False
+                logging.logDebug('new treelander of the day found!')
+                break
+            logging.logDebug("help")
+        logging.logDebug('out of while loop')
         await user.add_roles(638480387403677727, reason="Treelander of the Day!")
+        logging.logDebug('added role')
         await PrunusDB.add_TreelanderOfTheDay(user.id, user.name + user.discriminator, self.bot)
-        if totD_id != "" or len(totD_id) != 0:
-            totD = self.bot.get_user(self, totD_id)
-            if totD != None:
+        if totD_id != "" and len(totD_id) != 0:
+            logging.logDebug("is not empty")
+            totD = self.bot.get_user(int(totD_id))
+            logging.logDebug("got user: " + totD.name)
+            if totD is not None:
+                logging.logDebug("user is not null")
                 await totD.remove_roles(638480387403677727, reason="No longer the Treelander of the Day!")
+                logging.logDebug('removed role')
                 PrunusDB.remove_TreelanderOfTheDay(totD_id)
+        logging.logDebug("sending embed")
 
         channel = self.bot.get_channel(221998962247204864)
 
@@ -64,3 +107,7 @@ class Tasks(commands.Cog):
         await logging.log(
             "**[Info]** A member just became Treelander of the Day... %s#%s" % (user.name, user.discriminator),
             self.bot)
+
+
+def setup(bot):
+    bot.add_cog(Tasks(bot))
