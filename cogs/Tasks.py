@@ -55,6 +55,8 @@ class Tasks(commands.Cog):
         logging.logDebug("nice totD_id: " + totD_id)
         treeland = self.bot.get_guild(221996778092888065)
         logging.logDebug('got treeland')
+        treelanderoftheday_role = treeland.get_role(638480387403677727)
+        logging.logDebug('got role')
         treelanders = treeland.members
         logging.logDebug('got members')
         while True:
@@ -73,7 +75,7 @@ class Tasks(commands.Cog):
                 break
             logging.logDebug("help")
         logging.logDebug('out of while loop')
-        await user.add_roles(638480387403677727, reason="Treelander of the Day!")
+        await user.add_roles(treelanderoftheday_role, reason="Treelander of the Day!")
         logging.logDebug('added role')
         await PrunusDB.add_TreelanderOfTheDay(user.id, user.name + user.discriminator, self.bot)
         if totD_id != "" and len(totD_id) != 0:
@@ -82,7 +84,7 @@ class Tasks(commands.Cog):
             logging.logDebug("got user: " + totD.name)
             if totD is not None:
                 logging.logDebug("user is not null")
-                await totD.remove_roles(638480387403677727, reason="No longer the Treelander of the Day!")
+                await totD.remove_roles(treelanderoftheday_role, reason="No longer the Treelander of the Day!")
                 logging.logDebug('removed role')
                 PrunusDB.remove_TreelanderOfTheDay(totD_id)
         logging.logDebug("sending embed")
