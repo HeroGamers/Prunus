@@ -33,14 +33,16 @@ class Tasks(commands.Cog):
             logging.logDebug("yes")
             logging.logDebug(str(current_treelanderOfTheDay_TimeStamp))
 
-            timeElapsed = dt - current_treelanderOfTheDay_TimeStamp
-            logging.logDebug(timeElapsed)
-            timeElapsed_seconds = timeElapsed.total_seconds()
-            logging.logDebug(timeElapsed_seconds)
-            timeElapsed_hours = divmod(timeElapsed.total_seconds(), 3600)[0]
-            logging.logDebug(timeElapsed_hours)
-            if timeElapsed_hours > 20:
-                logging.logDebug("it was now over 20 hours ago")
+            #timeElapsed = dt - current_treelanderOfTheDay_TimeStamp
+            #logging.logDebug(timeElapsed)
+            #timeElapsed_seconds = timeElapsed.total_seconds()
+            #logging.logDebug(timeElapsed_seconds)
+            #timeElapsed_hours = divmod(timeElapsed.total_seconds(), 3600)[0]
+            #logging.logDebug(timeElapsed_hours)
+            #if timeElapsed_hours > 20:
+                #logging.logDebug("it was now over 20 hours ago")
+            if dt.date() != current_treelanderOfTheDay_TimeStamp.date():
+                logging.logDebug("It happened yesterday haha")
                 await self.newTreelanderOfTheDay(totD_id)
         else:
             logging.logDebug("suck")
