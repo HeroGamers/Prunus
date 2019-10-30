@@ -14,7 +14,7 @@ class Tasks(commands.Cog):
     def cog_unload(self):
         self.treelanderOfTheDay.cancel()
 
-    @tasks.loop(seconds=30.0)
+    @tasks.loop(seconds=60.0)
     async def treelanderOfTheDay(self):
         logging.logDebug("Treelander of the day Task")
         totD_id = PrunusDB.get_currentTreelanderOfTheDay()
@@ -22,15 +22,15 @@ class Tasks(commands.Cog):
         dt = datetime.datetime.now()
         logging.logDebug("dt: " + str(dt))
         if totD_id == "" or len(totD_id) == 0:
-            logging.logDebug("aaaaaaa")
+            logging.logDebug("no treelander of the day found")
             await self.newTreelanderOfTheDay(totD_id)
         elif dt.time() > datetime.time(12):
-            logging.logDebug("it is over 12. Time now is: " + str(datetime.datetime.now().time()))
+            logging.logDebug("it is over 12:00. Time now is: " + str(datetime.datetime.now().time()))
             treelanderOfTheDayTime = PrunusDB.get_currentTreelanderOfTheDayTime()
             logging.logDebug(treelanderOfTheDayTime)
             current_treelanderOfTheDay_TimeStamp = datetime.datetime.strptime(str(treelanderOfTheDayTime),
                                                                               "%Y-%m-%d %H:%M:%S.%f")
-            logging.logDebug("yes")
+            logging.logDebug("Breakpoint 1")
             logging.logDebug(str(current_treelanderOfTheDay_TimeStamp))
 
             #timeElapsed = dt - current_treelanderOfTheDay_TimeStamp
@@ -41,6 +41,7 @@ class Tasks(commands.Cog):
             #logging.logDebug(timeElapsed_hours)
             #if timeElapsed_hours > 20:
                 #logging.logDebug("it was now over 20 hours ago")
+            logging.logDebug(str(dt.date()) + " - " + str(current_treelanderOfTheDay_TimeStamp.date()))
             if dt.date() != current_treelanderOfTheDay_TimeStamp.date():
                 logging.logDebug("It happened yesterday haha")
                 await self.newTreelanderOfTheDay(totD_id)
@@ -103,7 +104,7 @@ class Tasks(commands.Cog):
         embed = discord.Embed(title="New Treelander of the Day!",
                               color=discord.Color.from_rgb(22, 198, 12), timestamp=datetime.datetime.utcnow(),
                               description=emote + " <@" + str(
-                                  user.id) + "> is now the Treelander of the Day!")
+                                  user.id) + "> is now the Treelander of the Day! Congrats!")
         embed.set_footer(text="New Treelander of the Day",
                          icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
         embed.set_thumbnail(url=user.avatar_url)
