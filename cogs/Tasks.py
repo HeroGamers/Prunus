@@ -54,11 +54,20 @@ class Tasks(commands.Cog):
         await self.bot.wait_until_ready()
 
     async def newTreelanderOfTheDay(self, totD_id=""):
+        # guild: 639457559505272863
+        # role: 638480387403677727
+        # channel: 221998962247204864
+        # emote: 584529307402240000
+        guild_id = 639457559505272863
+        role_id = 638480387403677727
+        channel_id = 221998962247204864
+        emote_id = 584529307402240000
+
         logging.logDebug('newtreelanderoftheday')
         logging.logDebug("nice totD_id: " + totD_id)
-        treeland = self.bot.get_guild(221996778092888065)
+        treeland = self.bot.get_guild(guild_id)
         logging.logDebug('got treeland')
-        treelanderoftheday_role = treeland.get_role(638480387403677727)
+        treelanderoftheday_role = treeland.get_role(role_id)
         logging.logDebug('got role')
         treelanders = treeland.members
         logging.logDebug('got members')
@@ -78,25 +87,35 @@ class Tasks(commands.Cog):
                 break
             logging.logDebug("help")
         logging.logDebug('out of while loop')
-        await user.add_roles(treelanderoftheday_role, reason="Treelander of the Day!")
+        try:
+            await user.add_roles(treelanderoftheday_role, reason="Treelander of the Day!")
+        except Exception as e:
+            await logging.log("Error trying to add the treelander of the day role: " + str(e), self.bot)
+            return
         logging.logDebug('added role')
         await PrunusDB.add_TreelanderOfTheDay(user.id, user.name + user.discriminator, self.bot)
         if totD_id != "" and len(totD_id) != 0:
             logging.logDebug("is not empty")
-            totD = self.bot.get_user(int(totD_id))
-            logging.logDebug("got user: " + totD.name)
+            totD = treeland.get_member(int(totD_id))
             if totD is not None:
                 logging.logDebug("user is not null")
-                await totD.remove_roles(treelanderoftheday_role, reason="No longer the Treelander of the Day!")
+                logging.logDebug("got user: " + totD.name)
+                try:
+                    await totD.remove_roles(treelanderoftheday_role, reason="No longer the Treelander of the Day!")
+                except Exception as e:
+                    await logging.log("Error trying to remove the treelander of the day role: " + str(e), self.bot)
+                    return
                 logging.logDebug('removed role')
-                PrunusDB.remove_TreelanderOfTheDay(totD_id)
+            else:
+                logging.logDebug("Member is null")
+            PrunusDB.remove_TreelanderOfTheDay(totD_id)
         logging.logDebug("sending embed")
 
-        channel = self.bot.get_channel(221998962247204864)
+        channel = self.bot.get_channel(channel_id)
 
         emojis = self.bot.emojis
         for emoji in emojis:
-            if emoji.id == 584529307402240000:
+            if emoji.id == emote_id:
                 emote = "<:" + emoji.name + ":" + str(emoji.id) + ">"
                 break
             emote = u"\U0001F333"
