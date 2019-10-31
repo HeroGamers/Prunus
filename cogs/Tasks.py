@@ -54,11 +54,11 @@ class Tasks(commands.Cog):
         await self.bot.wait_until_ready()
 
     async def newTreelanderOfTheDay(self, totD_id=""):
-        # guild: 639457559505272863
+        # guild: 221996778092888065
         # role: 638480387403677727
         # channel: 221998962247204864
         # emote: 584529307402240000
-        guild_id = 639457559505272863
+        guild_id = 221996778092888065
         role_id = 638480387403677727
         channel_id = 221998962247204864
         emote_id = 584529307402240000
