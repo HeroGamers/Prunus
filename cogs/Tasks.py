@@ -95,7 +95,7 @@ class Tasks(commands.Cog):
         logging.logDebug('added role')
         await PrunusDB.add_TreelanderOfTheDay(user.id, user.name + user.discriminator, self.bot)
         if totD_id != "" and len(totD_id) != 0:
-            logging.logDebug("is not empty")
+            logging.logDebug("totD_id is not empty, removing role")
             totD = treeland.get_member(int(totD_id))
             if totD is not None:
                 logging.logDebug("user is not null")
@@ -108,7 +108,8 @@ class Tasks(commands.Cog):
                 logging.logDebug('removed role')
             else:
                 logging.logDebug("Member is null")
-            PrunusDB.remove_TreelanderOfTheDay(totD_id)
+            PrunusDB.remove_TreelanderOfTheDay(user.id, True) # Removes Treelander of the Day status from everyone
+                                                              # BUT the user who got it today!
         logging.logDebug("sending embed")
 
         channel = self.bot.get_channel(channel_id)
@@ -129,8 +130,8 @@ class Tasks(commands.Cog):
         embed.set_thumbnail(url=user.avatar_url)
         await channel.send(embed=embed)
         await logging.log(
-            "**[Info]** A member just became Treelander of the Day... %s#%s" % (user.name, user.discriminator),
-            self.bot)
+            "A member just became Treelander of the Day... %s#%s" % (user.name, user.discriminator),
+            self.bot, "INFO")
 
 
 def setup(bot):

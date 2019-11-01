@@ -1,2 +1,2 @@
-# HBot
-Treeland's Official Discord Bot
+# Prunus
+Treeland's Official Trashy Discord Bot
