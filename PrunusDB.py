@@ -24,8 +24,11 @@ async def add_TreelanderOfTheDay(userid, name, bot):
         await logging.log("DB Notice: Date Already Used! - " + str(e), bot, "DEBUG")
 
 
-def remove_TreelanderOfTheDay(userid):
-    query = TreelanderOfTheDay.update(IsTreelanderOfTheDay=False).where(TreelanderOfTheDay.UserID == userid)
+def remove_TreelanderOfTheDay(userid, deepRemoval):
+    if deepRemoval:
+        query = TreelanderOfTheDay.update(IsTreelanderOfTheDay=False).where(TreelanderOfTheDay.UserID != userid)
+    else:
+        query = TreelanderOfTheDay.update(IsTreelanderOfTheDay=False).where(TreelanderOfTheDay.UserID == userid)
     query.execute()
 
 
@@ -35,6 +38,7 @@ def get_currentTreelanderOfTheDay():
         return query[0].UserID
     except IndexError:
         return "";
+
 
 def get_currentTreelanderOfTheDayTime():
     query = TreelanderOfTheDay.select().where(TreelanderOfTheDay.IsTreelanderOfTheDay == True)

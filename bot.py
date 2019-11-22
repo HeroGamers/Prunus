@@ -17,7 +17,10 @@ startup_extensions = ["essentials",
 
 @bot.event
 async def on_ready():
-    await logging.log("**[Info]** The bot has started!", bot)
+    # we setup the logger first
+    logging.setup_logger()
+
+    await logging.log("The bot has started!", bot, "INFO")
     print("\n")
     stream = discord.Streaming(name="Hero's channel on Twitch!", url="https://www.twitch.tv/herogamersdk", twitch_name="herogamersdk")
     await bot.change_presence(activity=stream)
@@ -42,11 +45,11 @@ async def on_command_error(ctx: commands.Context, error):
         return
     else:
         await ctx.send("Something went wrong while executing that command... Sorry!")
-        await logging.log("**[ERROR]** %s" % error, bot)
+        await logging.log(error, bot, "ERROR")
 
 @bot.event
 async def on_guild_join(guild):
-    await logging.log("**[Info]** Joined a new guild (`%s` - `%s`)" % (guild.name, guild.id), bot)
+    await logging.log("Joined a new guild (`%s` - `%s`)" % (guild.name, guild.id), bot, "INFO")
 
 @bot.event
 async def on_member_update(before, after):
@@ -69,7 +72,7 @@ async def on_member_update(before, after):
             embed.set_footer(text="New Member of Treeland", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
             embed.set_thumbnail(url=after.avatar_url)
             await channel.send(embed=embed)
-            await logging.log("**[Info]** A member just got the rising role... %s#%s" % (after.name, after.discriminator), bot)
+            await logging.log("A member just got the rising role... %s#%s" % (after.name, after.discriminator), bot, "INFO")
 
 @bot.event
 async def on_message(message:discord.Message):
@@ -78,7 +81,7 @@ async def on_message(message:discord.Message):
     ctx:commands.Context = await bot.get_context(message)
     if message.content.startswith(os.getenv('prefix')):
         if ctx.command is not None:
-            await logging.log("**[Command]** `%s` (%s) used the `%s` command in the guild `%s` (%s), in the channel `%s` (%s)" % (ctx.author.name, ctx.author.id, ctx.invoked_with, ctx.guild.name, ctx.guild.id, ctx.channel.name, ctx.channel.id), bot)
+            await logging.log("`%s` (%s) used the `%s` command in the guild `%s` (%s), in the channel `%s` (%s)" % (ctx.author.name, ctx.author.id, ctx.invoked_with, ctx.guild.name, ctx.guild.id, ctx.channel.name, ctx.channel.id), bot, "INFO")
             await bot.invoke(ctx)
     else:
         return
@@ -88,6 +91,6 @@ if __name__ == '__main__':
         try:
             bot.load_extension(f"cogs.{extension}")
         except Exception as e:
-            logging.logDebug(f"[ERROR] Failed to load extension {extension}. - {e}")
+            logging.log(f"Failed to load extension {extension}. - {e}", bot, "ERROR")
 
 bot.run(os.getenv('token'))
