@@ -60,6 +60,7 @@ class Tasks(commands.Cog):
         # emote: 584529307402240000
         guild_id = 221996778092888065
         role_id = 638480387403677727
+        risings_role_id = 530778945105428501
         channel_id = 221998962247204864
         emote_id = 584529307402240000
 
@@ -69,8 +70,9 @@ class Tasks(commands.Cog):
         logging.logDebug('got treeland')
         treelanderoftheday_role = treeland.get_role(role_id)
         logging.logDebug('got role')
-        treelanders = treeland.members
-        logging.logDebug('got members')
+        risings_role = treeland.get_role(risings_role_id)
+        treelanders = risings_role.members
+        logging.logDebug('got members of rising role')
         while True:
             logging.logDebug('while loop')
             user = random.choice(treelanders)
