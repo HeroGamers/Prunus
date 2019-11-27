@@ -125,12 +125,12 @@ class Tasks(commands.Cog):
 
         embed = discord.Embed(title="New Treelander of the Day!",
                               color=discord.Color.from_rgb(22, 198, 12), timestamp=datetime.datetime.utcnow(),
-                              description=emote + " <@" + str(
-                                  user.id) + "> is now the Treelander of the Day! Congrats!")
+                              description=emote + " " + user.name + " is now the Treelander of the Day! Congrats!")
         embed.set_footer(text="New Treelander of the Day",
                          icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
         embed.set_thumbnail(url=user.avatar_url)
-        await channel.send(embed=embed)
+        await channel.send(content="Congratulations, <@" + str(
+                                  user.id) + ">!", embed=embed)
         await logging.log(
             "A member just became Treelander of the Day... %s#%s" % (user.name, user.discriminator),
             self.bot, "INFO")
