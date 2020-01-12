@@ -65,7 +65,7 @@ async def on_member_update(before, after):
                     break
                 emote = u"\U0001F4E5"
             
-            channel = bot.get_channel(221998962247204864)
+            channel = bot.get_channel(665922203686273054)
 
             embed = discord.Embed(title="Welcome to Treeland, " + after.display_name, color=discord.Color.from_rgb(255, 105, 180), timestamp=datetime.datetime.utcnow(),
                 description=emote + " <@" + str(after.id) + "> just became a member of Treeland! Please welcome them!")
