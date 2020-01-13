@@ -61,7 +61,7 @@ class Tasks(commands.Cog):
         guild_id = 221996778092888065
         role_id = 638480387403677727
         risings_role_id = 530778945105428501
-        channel_id = 221998962247204864
+        channel_id = 665922203686273054
         emote_id = 584529307402240000
 
         logging.logDebug('newtreelanderoftheday')
