@@ -4,6 +4,7 @@
 **/.vscode
 .idea/
 prunusDB.db
+logs/
 
 # HBot Custom Ignores
 config.py

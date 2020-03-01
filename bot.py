@@ -15,12 +15,125 @@ startup_extensions = ["essentials",
                       "info",
                       "Tasks"]
 
+
+# For checking the welcome channel
+async def welcome_channel():
+    # Defining bot messages for the welcome channel
+    welcomeembeds = []
+    # --- Welcome image ---
+    embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
+    embed.set_image(url="https://styles.redditmedia.com/t5_22a6oh/styles/bannerBackgroundImage_gfuciyxjzod31.png")
+    welcomeembeds.append(embed)  # Append the created embed
+    # --- Welcome message ---
+    embed = discord.Embed(title="Welcome to Treeland", color=discord.Color.from_rgb(255, 105, 180),
+                          description="Hi, and welcome to Treeland! :blesswave:\n\n"
+                                      
+                                      "You can see Treeland as your new home, away from home. A second family. "
+                                      "We want to keep a civil tone in here, whilst still having heck loads of fun.\n\n"
+                                      
+                                      "If you need help with anything, go ahead and ping an active @Staff, "
+                                      "but please only ping if you find it necessary, "
+                                      "or else you might get your ass whooped.\n"
+                                      "If you think something should be added, removed, changed or whatever, "
+                                      "please send it into a Staff's DM's, in a clean and clear way :meowokhand:\n\n"
+                                      
+                                      "We don't want to bore someone to death with a huge list of rules, so here are "
+                                      "a few, and we expect all of you to follow them :blessfingergunsamusedreverse:")
+    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+    welcomeembeds.append(embed)
+    # --- Rules image ---
+    embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
+    embed.set_image(url="https://styles.redditmedia.com/t5_22a6oh/styles/bannerBackgroundImage_gfuciyxjzod31.png")
+    welcomeembeds.append(embed)  # Append the created embed
+    # --- Rules message ---
+    embed = discord.Embed(title="The Rules of Treeland", color=discord.Color.from_rgb(255, 105, 180),
+                          description="*So... You want to hear a story, eh? One about treasure hunters? "
+                                      "Haha, have I got a story for you!*\n"
+                                      "Wait, wrong Transcript... Well, to become a fully-fledged Treelander you've got "
+                                      "to know your way around our rules, but fret not! They are quite simple:\n\n"
+
+                                      # Rule 1
+                                      "**1.** Behave properly to others.\n"
+                                      # Rule 2
+                                      "**2.** No NSFW content in channels that aren't marked as NSFW. "
+                                      "Explicit pornographic content isn't allowed anywhere in Treeland.\n"
+                                      # Rule 3
+                                      "**3.** Don't break the Discord Terms of Service.\n"
+                                      # Rule 4
+                                      "**4.** Stick to the Discord Community Guidelines "
+                                      "(as well as the Discord Partnership Code of Conduct).\n")
+    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+    welcomeembeds.append(embed)
+    # --- Roles image ---
+    embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
+    embed.set_image(url="https://styles.redditmedia.com/t5_22a6oh/styles/bannerBackgroundImage_gfuciyxjzod31.png")
+    welcomeembeds.append(embed)  # Append the created embed
+    # --- Roles message ---
+    embed = discord.Embed(title="The Roles of Treeland", color=discord.Color.from_rgb(255, 105, 180),
+                          description="Now... What are those shiny Roles I see in the side panel?\n"
+                                      "Well... allow me to explain\n\n"
+
+                                      "**:green_heart: 🢡 Treelander of the Day:** A random member of Treeland chosen "
+                                      "every day at 12 PM (CET). Gets access to write in #totd-chat.\n "
+                                      "\n"
+                                      "**:purple_heart: 🢡 Royalty of Treeland:** These people are true followers of "
+                                      "Treeland, and have been for many many years.\n "
+                                      "**:blue_heart: 🢡 Epic Gamers:** People in this role are either freakin' "
+                                      "awesome and are a part of our staff team <3\n "
+                                      "**:seedling: 🢡 Master Tree Grower:** :NitroBoost: This role is given to "
+                                      "people who are very good at growing our trees here in Treeland, by boosting "
+                                      "our small land with their Nitro Boost :NitroBoost:\n "
+                                      "\n"
+                                      "**:evergreen_tree: 🢡 Evergreen:** To go even further beyond. This individual "
+                                      "is either to be feared or looked down upon, as they clearly have given their "
+                                      "souls away and dedicated themselves to Treeland. Reached at a whoppin' 50000 "
+                                      "Server Exp.\n "
+                                      "**:tanabata_tree: 🢡 Tanabata:** Wowie, now we're gettin' there. If an "
+                                      "individual has this role, you should know that they know their shit. Reached "
+                                      "at 10000 Server Exp.\n "
+                                      "**:palm_tree: 🢡 Palm:** An individual who has this role should know what's "
+                                      "happening around here by now. Reached at Level 5000 Server Exp.\n "
+                                      "**:deciduous_tree: 🢡 Treelander:** This role is given to people who have "
+                                      "reached 500 Server Exp, and those people are now a fully fledged citizen of "
+                                      "Treeland.\n "
+                                      "**:smiling_face_with_3_hearts: 🢡 Peeps:** This role is given to people who "
+                                      "joined at the Invite-only stage of the Heroji Emote Servers.\n "
+                                      "**:earth_africa: 🢡 IRL:** This role is given to people who I know and have "
+                                      "met physically. "
+                                      "**:balloon: 🢡 Risings:** You might be familiar with this role, well it's the "
+                                      "role you got when you first got here. It's the role for people that are on "
+                                      "their way up the rankings.\n")
+    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+    welcomeembeds.append(embed)
+
+
+    # Editing the current bot messages, if they aren't identical with the ones defined above
+    channel = bot.get_channel(221996778092888065)  # channel is #welcome
+
+    current_botmessages = []
+    async for message in channel.history(limit=20):
+        if message.author == bot.user:
+            current_botmessages.append(message)
+
+
+
+
+
 @bot.event
 async def on_ready():
-    # we setup the logger first
-    logging.setup_logger()
+    # Bot startup is now done...
+    logging.logDebug("----------[LOGIN SUCESSFULL]----------", "INFO")
+    logging.logDebug("     Username: " + bot.user.name, "INFO")
+    logging.logDebug("     UserID:   " + str(bot.user.id), "INFO")
+    logging.logDebug("--------------------------------------", "INFO")
+    print("\n")
 
-    await logging.log("The bot has started!", bot, "INFO")
+    logging.logDebug("Checking the welcome channel!", "INFO")
+    await welcome_channel()
+    logging.logDebug("Done checking the welcome channel!", "INFO")
+    print("\n")
+
+    await logging.log("The bot is ready!", bot, "INFO")
     print("\n")
     stream = discord.Streaming(name="Hero's channel on Twitch!", url="https://www.twitch.tv/herogamersdk", twitch_name="herogamersdk")
     await bot.change_presence(activity=stream)
@@ -87,6 +200,9 @@ async def on_message(message:discord.Message):
         return
 
 if __name__ == '__main__':
+    # we setup the logger first
+    logging.setup_logger()
+    # load extensions
     for extension in startup_extensions:
         try:
             bot.load_extension(f"cogs.{extension}")
