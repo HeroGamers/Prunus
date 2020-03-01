@@ -129,7 +129,7 @@ async def on_ready():
     print("\n")
 
     logging.logDebug("Checking the welcome channel!", "INFO")
-    await welcome_channel()
+    #await welcome_channel()
     logging.logDebug("Done checking the welcome channel!", "INFO")
     print("\n")
 
