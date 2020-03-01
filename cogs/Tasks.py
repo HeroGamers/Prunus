@@ -60,7 +60,8 @@ class Tasks(commands.Cog):
         # emote: 584529307402240000
         guild_id = 221996778092888065
         role_id = 638480387403677727
-        channel_id = 221998962247204864
+        risings_role_id = 530778945105428501
+        channel_id = 665922203686273054
         emote_id = 584529307402240000
 
         logging.logDebug('newtreelanderoftheday')
@@ -69,8 +70,9 @@ class Tasks(commands.Cog):
         logging.logDebug('got treeland')
         treelanderoftheday_role = treeland.get_role(role_id)
         logging.logDebug('got role')
-        treelanders = treeland.members
-        logging.logDebug('got members')
+        risings_role = treeland.get_role(risings_role_id)
+        treelanders = risings_role.members
+        logging.logDebug('got members of rising role')
         while True:
             logging.logDebug('while loop')
             user = random.choice(treelanders)
@@ -123,12 +125,12 @@ class Tasks(commands.Cog):
 
         embed = discord.Embed(title="New Treelander of the Day!",
                               color=discord.Color.from_rgb(22, 198, 12), timestamp=datetime.datetime.utcnow(),
-                              description=emote + " <@" + str(
-                                  user.id) + "> is now the Treelander of the Day! Congrats!")
+                              description=emote + " " + user.name + " is now the Treelander of the Day! Congrats!")
         embed.set_footer(text="New Treelander of the Day",
                          icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
         embed.set_thumbnail(url=user.avatar_url)
-        await channel.send(embed=embed)
+        await channel.send(content="Congratulations, <@" + str(
+                                  user.id) + ">!", embed=embed)
         await logging.log(
             "A member just became Treelander of the Day... %s#%s" % (user.name, user.discriminator),
             self.bot, "INFO")
