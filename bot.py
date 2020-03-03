@@ -22,51 +22,54 @@ async def welcome_channel():
     welcomeembeds = []
     # --- Welcome image ---
     embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
-    embed.set_image(url="https://styles.redditmedia.com/t5_22a6oh/styles/bannerBackgroundImage_gfuciyxjzod31.png")
+    embed.set_image(url="https://cdn.discordapp.com/attachments/237223522710192129/684481561084952671/welcomepic-treeland.png")
     welcomeembeds.append(embed)  # Append the created embed
     # --- Welcome message ---
-    embed = discord.Embed(title="Welcome to Treeland", color=discord.Color.from_rgb(255, 105, 180),
-                          description="Hi, and welcome to Treeland! :blesswave:\n\n"
+    embed = discord.Embed(title="Welcome to Treeland!", color=discord.Color.from_rgb(255, 105, 180),
+                          description="Hi, welcome to Treeland! <a:bugcatwiggle2:564875858767118356>\n\n"
                                       
                                       "You can see Treeland as your new home, away from home. A second family. "
                                       "We want to keep a civil tone in here, whilst still having heck loads of fun.\n\n"
                                       
-                                      "If you need help with anything, go ahead and ping an active @Staff, "
-                                      "but please only ping if you find it necessary, "
+                                      "If you need help with anything, go ahead and ping an active "
+                                      "<@&222000308182712320>, but please only ping if you find it necessary, "
                                       "or else you might get your ass whooped.\n"
-                                      "If you think something should be added, removed, changed or whatever, "
-                                      "please send it into a Staff's DM's, in a clean and clear way :meowokhand:\n\n"
+                                      "If you think something should be added, removed or changed, "
+                                      "please send it into a Staff's DM's, in a clean and clear way "
+                                      "<:KKomrade:590630277710348288>\n\n"
                                       
-                                      "We don't want to bore someone to death with a huge list of rules, so here are "
-                                      "a few, and we expect all of you to follow them :blessfingergunsamusedreverse:")
+                                      "We don't want to bore someone to death with a huge list of rules, so we only "
+                                      "have a few, but we still expect all of you to follow them "
+                                      "<a:hugheart:646102861243088925>")
     embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
     welcomeembeds.append(embed)
     # --- Rules image ---
     embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
-    embed.set_image(url="https://styles.redditmedia.com/t5_22a6oh/styles/bannerBackgroundImage_gfuciyxjzod31.png")
+    embed.set_image(url="https://cdn.discordapp.com/attachments/237223522710192129/684476798092050492/rules-treeland.png")
     welcomeembeds.append(embed)  # Append the created embed
     # --- Rules message ---
     embed = discord.Embed(title="The Rules of Treeland", color=discord.Color.from_rgb(255, 105, 180),
-                          description="*So... You want to hear a story, eh? One about treasure hunters? "
-                                      "Haha, have I got a story for you!*\n"
-                                      "Wait, wrong Transcript... Well, to become a fully-fledged Treelander you've got "
-                                      "to know your way around our rules, but fret not! They are quite simple:\n\n"
+                          description='*"So... You want to hear a story, eh? One about treasure hunters? '
+                                      'Haha, have I got a story for you!"* - Wait, wrong transcript...\n'
+                                      "Well, to become a fully-fledged Treelander you've got to know your way around "
+                                      "our rules, but fret not! They are quite simple:\n\n\n"
 
                                       # Rule 1
-                                      "**1.** Behave properly to others.\n"
+                                      "**1.** Behave properly to others.\n\n"
                                       # Rule 2
                                       "**2.** No NSFW content in channels that aren't marked as NSFW. "
-                                      "Explicit pornographic content isn't allowed anywhere in Treeland.\n"
+                                      "Explicit pornographic content isn't allowed anywhere in Treeland.\n\n"
                                       # Rule 3
-                                      "**3.** Don't break the Discord Terms of Service.\n"
+                                      "**3.** Don't break the [Discord Terms of Service](https://dis.gd/terms).\n\n"
                                       # Rule 4
-                                      "**4.** Stick to the Discord Community Guidelines "
-                                      "(as well as the Discord Partnership Code of Conduct).\n")
-    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+                                      "**4.** Stick to the [Discord Community Guidelines](https://dis.gd/guidelines) "
+                                      "(as well as the [Discord Partnership Code of Conduct]("
+                                      "https://dis.gd/partnercoc)).")
+    embed.set_footer(text="The Treeland Community - Our rules are subject to change without notice.", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
     welcomeembeds.append(embed)
     # --- Roles image ---
     embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
-    embed.set_image(url="https://styles.redditmedia.com/t5_22a6oh/styles/bannerBackgroundImage_gfuciyxjzod31.png")
+    embed.set_image(url="https://cdn.discordapp.com/attachments/237223522710192129/684477910987440159/roles-treeland.png")
     welcomeembeds.append(embed)  # Append the created embed
     # --- Roles message ---
     embed = discord.Embed(title="The Roles of Treeland", color=discord.Color.from_rgb(255, 105, 180),
@@ -74,35 +77,75 @@ async def welcome_channel():
                                       "Well... allow me to explain\n\n"
 
                                       "**:green_heart: 🢡 Treelander of the Day:** A random member of Treeland chosen "
-                                      "every day at 12 PM (CET). Gets access to write in #totd-chat.\n "
+                                      "every day at 12 PM (CET). Gets access to write in <#647828868782358539>.\n"
                                       "\n"
                                       "**:purple_heart: 🢡 Royalty of Treeland:** These people are true followers of "
-                                      "Treeland, and have been for many many years.\n "
+                                      "Treeland, and have been for many many years.\n"
                                       "**:blue_heart: 🢡 Epic Gamers:** People in this role are either freakin' "
-                                      "awesome and are a part of our staff team <3\n "
-                                      "**:seedling: 🢡 Master Tree Grower:** :NitroBoost: This role is given to "
+                                      "awesome and are a part of our staff team <3\n"
+                                      "**:seedling: 🢡 Master Tree Grower:** This role is given to "
                                       "people who are very good at growing our trees here in Treeland, by boosting "
-                                      "our small land with their Nitro Boost :NitroBoost:\n "
+                                      "our small land with their Nitro Boost!\n"
                                       "\n"
                                       "**:evergreen_tree: 🢡 Evergreen:** To go even further beyond. This individual "
                                       "is either to be feared or looked down upon, as they clearly have given their "
                                       "souls away and dedicated themselves to Treeland. Reached at a whoppin' 50000 "
-                                      "Server Exp.\n "
+                                      "Server Exp.\n"
                                       "**:tanabata_tree: 🢡 Tanabata:** Wowie, now we're gettin' there. If an "
                                       "individual has this role, you should know that they know their shit. Reached "
-                                      "at 10000 Server Exp.\n "
+                                      "at 10000 Server Exp.\n"
                                       "**:palm_tree: 🢡 Palm:** An individual who has this role should know what's "
-                                      "happening around here by now. Reached at Level 5000 Server Exp.\n "
+                                      "happening around here by now. Reached at Level 5000 Server Exp.\n"
                                       "**:deciduous_tree: 🢡 Treelander:** This role is given to people who have "
                                       "reached 500 Server Exp, and those people are now a fully fledged citizen of "
-                                      "Treeland.\n "
+                                      "Treeland.\n"
                                       "**:smiling_face_with_3_hearts: 🢡 Peeps:** This role is given to people who "
-                                      "joined at the Invite-only stage of the Heroji Emote Servers.\n "
+                                      "joined at the Invite-only stage of the Heroji Emote Servers.\n"
                                       "**:earth_africa: 🢡 IRL:** This role is given to people who I know and have "
-                                      "met physically. "
+                                      "met physically.\n"
                                       "**:balloon: 🢡 Risings:** You might be familiar with this role, well it's the "
                                       "role you got when you first got here. It's the role for people that are on "
                                       "their way up the rankings.\n")
+    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+    welcomeembeds.append(embed)
+    # --- Invite image ---
+    embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
+    embed.set_image(url="https://cdn.discordapp.com/attachments/237223522710192129/684492613038243860/socials-treeland.png")
+    welcomeembeds.append(embed)  # Append the created embed
+    # --- Invite message ---
+    embed = discord.Embed(title="Treeland's Socials", color=discord.Color.from_rgb(255, 105, 180),
+                          description="So, we bet you're totally ecstatic about inviting your Friends and Family to "
+                                      "Treeland right now! Well, fret not, we've got you covered with all sorts of "
+                                      "magic ways to keep in touch with Treeland, no matter where you are!\n\n"
+                                      
+                                      "**Reddit** - [r/HeroGamers](https://www.reddit.com/r/HeroGamers/)\n"
+                                      "**Twitch** - [HeroGamers](https://www.twitch.tv/herogamers)\n"
+                                      "**Twitter** - [@TheTreeland](https://twitter.com/TheTreeland)\n"
+                                      "**Discord** - [discord.gg/PvFPEfd](https://discord.gg/PvFPEfd) or "
+                                      "[treeland.herogamers.xyz](https://treeland.herogamers.xyz)")
+    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+    welcomeembeds.append(embed)
+    # --- Opt-in/opt-out roles image ---
+    embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
+    embed.set_image(url="https://cdn.discordapp.com/attachments/237223522710192129/684479344059744268/optroles-treeland.png")
+    welcomeembeds.append(embed)  # Append the created embed
+    # --- Opt-in/opt-out roles message ---
+    embed = discord.Embed(title="Opt-in/Opt-out Roles", color=discord.Color.from_rgb(255, 105, 180),
+                          description="Currently you should not have any of these roles! These roles are used for "
+                                      "various purposes, such as to ping you, the user, when there is something going "
+                                      "on in here, so we don't have to use the atEveryone all the time. So, "
+                                      "here are the roles, what they do, and how you opt-in (or opt-out for them):\n\n"
+
+                                      "<:POGGIES:586184959254069258> **pingpong:** You get pinged for Treeland stuff, "
+                                      "like when we go live on Twitch or other community events!\n"
+                                      "<a:catblushINTENSE:587309010500452352> **free game:** You get pinged when "
+                                      "there is a free game to be grabbed. Free, and games? WHO CAN SAY NO TO THAT??\n"
+                                      "<a:ricardoFlick:590695048564178944> **adult:** [18+] You get access to a "
+                                      "channel where discussions of NSFW content is allowed. This includes "
+                                      "discussions of nudity, sexuality and violence. Note that explicit pornographic "
+                                      "content still has no place in Treeland.\n\n"
+
+                                      "***To opt for the roles, react to this message with the emotes used above!***")
     embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
     welcomeembeds.append(embed)
 
@@ -114,6 +157,47 @@ async def welcome_channel():
     async for message in channel.history(limit=20):
         if message.author == bot.user:
             current_botmessages.append(message)
+    # Reverse because it reads from the bottom up
+    current_botmessages.reverse()
+
+    # Checking if they are identical to welcomeembeds content
+    embed_index = 0
+    for embed in welcomeembeds:
+        # If there aren't the same amount of messages
+        # if len(welcomeembeds) != len(current_botmessages):
+
+        type = None
+        if embed.image != Embed.Empty:
+            type = "Image"
+        elif embed.description != Embed.Empty:
+            type = "Message"
+        else:
+            logging.log("Error! Embed has no image nor message", bot, "ERROR")
+            continue
+
+        # Looking if a message has been posted at this embed index yet
+        current_message = None
+        try:
+            current_message = current_botmessages[embed_index]
+        except IndexError:
+            logging.logDebug("No message for this yet")
+
+        # If message exists
+        if current_message is not None:
+            # For images
+            if type == "Image":
+                if current_message.embeds[0].image != Embed.Empty:
+                    if current_message.embeds[0].image.url != embed.image.url:
+                        await current_message.edit(embed=embed)
+            # For messages
+            if type == "Image":
+                if current_message.embeds[0].description != Embed.Empty:
+                    if current_message.embeds[0].description != embed.description:
+                        await current_message.edit(embed=embed)
+        else: # Otherwise, just send the embed as a new message
+            await channel.send(embed=embed)
+
+        embed_index += 1
 
 
 
@@ -129,7 +213,7 @@ async def on_ready():
     print("\n")
 
     logging.logDebug("Checking the welcome channel!", "INFO")
-    #await welcome_channel()
+    await welcome_channel()
     logging.logDebug("Done checking the welcome channel!", "INFO")
     print("\n")
 
