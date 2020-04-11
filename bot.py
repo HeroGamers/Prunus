@@ -217,9 +217,9 @@ async def on_ready():
     logging.logDebug("Done checking the welcome channel!", "INFO")
     print("\n")
 
-    await logging.log("The bot is ready!", bot, "INFO")
+    await logging.logDebug("The bot is ready!", "INFO")
     print("\n")
-    stream = discord.Streaming(name="Hero's channel on Twitch!", url="https://www.twitch.tv/herogamersdk", twitch_name="herogamersdk")
+    stream = discord.Streaming(name="Hero's channel on Twitch!", url="https://www.twitch.tv/herogamers", twitch_name="herogamers")
     await bot.change_presence(activity=stream)
 
 @bot.event
