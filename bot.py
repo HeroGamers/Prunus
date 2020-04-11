@@ -143,7 +143,10 @@ async def welcome_channel():
                                       "<a:ricardoFlick:590695048564178944> **adult:** [18+] You get access to a "
                                       "channel where discussions of NSFW content is allowed. This includes "
                                       "discussions of nudity, sexuality and violence. Note that explicit pornographic "
-                                      "content still has no place in Treeland.\n\n"
+                                      "content still has no place in Treeland.\n"
+                                      "<:denyhammer:586250559653281809> **botsupport:** Are you here in need of "
+                                      "Support for bots developed by Hero (like WatchDog)? Get yourself the "
+                                      "botsupport role!\n\n "
 
                                       "***To opt for the roles, react to this message with the emotes used above!***")
     embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
