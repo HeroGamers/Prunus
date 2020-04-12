@@ -45,8 +45,6 @@ class Tasks(commands.Cog):
             if dt.date() != current_treelanderOfTheDay_TimeStamp.date():
                 logging.logDebug("It happened yesterday haha")
                 await self.newTreelanderOfTheDay(totD_id)
-        else:
-            logging.logDebug("suck")
 
     @treelanderOfTheDay.before_loop
     async def before_loop(self):

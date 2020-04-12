@@ -216,11 +216,6 @@ async def on_connect():
     logging.logDebug("--------------------------------------", "INFO")
     print("\n")
 
-    logging.logDebug("Checking the welcome channel!", "INFO")
-    await welcome_channel()
-    logging.logDebug("Done checking the welcome channel!", "INFO")
-    print("\n")
-
     await logging.log("The bot is ready!", bot, "INFO")
     print("\n")
 
@@ -228,6 +223,11 @@ async def on_connect():
 @bot.event
 async def on_ready():
     logging.logDebug("Prunus has (re)connected to Discord!")
+
+    logging.logDebug("Checking the welcome channel!", "INFO")
+    await welcome_channel()
+    logging.logDebug("Done checking the welcome channel!", "INFO")
+    print("\n")
 
 
 @bot.event
