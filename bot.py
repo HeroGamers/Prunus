@@ -216,7 +216,7 @@ async def on_connect():
     logging.logDebug("--------------------------------------", "INFO")
     print("\n")
 
-    await logging.log("The bot is ready!", bot, "INFO")
+    logging.logDebug("The bot is ready!", "INFO")
     print("\n")
 
 
