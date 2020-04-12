@@ -9,7 +9,11 @@ import os
 from Util import logging
 import config
 
-bot = commands.Bot(command_prefix=os.getenv('prefix'), description='I guess this is a bot, it does bot things.')
+
+stream = discord.Streaming(name="Hero's channel on Twitch!", url="https://www.twitch.tv/herogamers",
+                               twitch_name="herogamers")
+bot = commands.Bot(command_prefix=os.getenv('prefix'), description='I guess this is a bot, it does bot things.',
+                   activity=stream)
 
 startup_extensions = ["essentials",
                       "info",
@@ -175,7 +179,7 @@ async def welcome_channel():
         elif embed.description != Embed.Empty:
             type = "Message"
         else:
-            logging.log("Error! Embed has no image nor message", bot, "ERROR")
+            await logging.log("Error! Embed has no image nor message", bot, "ERROR")
             continue
 
         # Looking if a message has been posted at this embed index yet
@@ -203,11 +207,8 @@ async def welcome_channel():
         embed_index += 1
 
 
-
-
-
 @bot.event
-async def on_ready():
+async def on_connect():
     # Bot startup is now done...
     logging.logDebug("----------[LOGIN SUCESSFULL]----------", "INFO")
     logging.logDebug("     Username: " + bot.user.name, "INFO")
@@ -220,10 +221,14 @@ async def on_ready():
     logging.logDebug("Done checking the welcome channel!", "INFO")
     print("\n")
 
-    await logging.logDebug("The bot is ready!", "INFO")
+    await logging.log("The bot is ready!", bot, "INFO")
     print("\n")
-    stream = discord.Streaming(name="Hero's channel on Twitch!", url="https://www.twitch.tv/herogamers", twitch_name="herogamers")
-    await bot.change_presence(activity=stream)
+
+
+@bot.event
+async def on_ready():
+    logging.logDebug("Prunus has (re)connected to Discord!")
+
 
 @bot.event
 async def on_command_error(ctx: commands.Context, error):
