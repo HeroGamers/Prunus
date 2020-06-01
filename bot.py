@@ -300,5 +300,6 @@ if __name__ == '__main__':
             bot.load_extension(f"cogs.{extension}")
         except Exception as e:
             logging.log(f"Failed to load extension {extension}. - {e}", bot, "ERROR")
+    bot.load_extension("jishaku")
 
 bot.run(os.getenv('token'))
