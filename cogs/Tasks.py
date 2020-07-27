@@ -71,6 +71,10 @@ class Tasks(commands.Cog):
         risings_role = treeland.get_role(risings_role_id)
         treelanders = risings_role.members
         logging.logDebug('got members of rising role')
+
+        # Do random seed with date and time
+        random.seed(int(datetime.datetime.now().strftime("%d%m%Y%H%M%S%f")))
+
         while True:
             logging.logDebug('while loop')
             user = random.choice(treelanders)
