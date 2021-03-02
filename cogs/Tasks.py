@@ -68,8 +68,10 @@ class Tasks(commands.Cog):
         logger.logDebug('got treeland')
         treelanderoftheday_role = treeland.get_role(role_id)
         logger.logDebug('got role')
-        risings_role = treeland.get_role(risings_role_id)
-        treelanders = risings_role.members
+        treelanders = []
+        async for member in treeland.fetch_members(limit=None):
+            if risings_role_id in [role.id for role in member.roles]:
+                treelanders.append(member)
         logger.logDebug('got members of rising role')
 
         # Do random seed with date and time
@@ -100,7 +102,7 @@ class Tasks(commands.Cog):
         await PrunusDB.add_TreelanderOfTheDay(user.id, user.name + user.discriminator, self.bot)
         if totD_id != "" and len(totD_id) != 0:
             logger.logDebug("totD_id is not empty, removing role")
-            totD = treeland.get_member(int(totD_id))
+            totD = await treeland.fetch_member(int(totD_id))
             if totD is not None:
                 logger.logDebug("user is not null")
                 logger.logDebug("got user: " + totD.name)
