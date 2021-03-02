@@ -1,19 +1,16 @@
 import discord
-import asyncio
 import datetime
 from discord.ext import commands
 from discord import Embed
-from pathlib import Path
-import sys, traceback
 import os
-from Util import logging
-import config
+from Util import logger
 
 
 stream = discord.Streaming(name="Hero's channel on Twitch!", url="https://www.twitch.tv/herogamers",
                                twitch_name="herogamers")
+intents = discord.Intents().all()
 bot = commands.Bot(command_prefix=os.getenv('prefix'), description='I guess this is a bot, it does bot things.',
-                   activity=stream)
+                   activity=stream, intents=intents)
 
 startup_extensions = ["essentials",
                       "info",
@@ -179,7 +176,7 @@ async def welcome_channel():
         elif embed.description != Embed.Empty:
             type = "Message"
         else:
-            await logging.log("Error! Embed has no image nor message", bot, "ERROR")
+            await logger.log("Error! Embed has no image nor message", bot, "ERROR")
             continue
 
         # Looking if a message has been posted at this embed index yet
@@ -187,7 +184,7 @@ async def welcome_channel():
         try:
             current_message = current_botmessages[embed_index]
         except IndexError:
-            logging.logDebug("No message for this yet")
+            logger.logDebug("No message for this yet")
 
         # If message exists
         if current_message is not None:
@@ -210,23 +207,23 @@ async def welcome_channel():
 @bot.event
 async def on_connect():
     # Bot startup is now done...
-    logging.logDebug("----------[LOGIN SUCESSFULL]----------", "INFO")
-    logging.logDebug("     Username: " + bot.user.name, "INFO")
-    logging.logDebug("     UserID:   " + str(bot.user.id), "INFO")
-    logging.logDebug("--------------------------------------", "INFO")
+    logger.logDebug("----------[LOGIN SUCESSFULL]----------", "INFO")
+    logger.logDebug("     Username: " + bot.user.name, "INFO")
+    logger.logDebug("     UserID:   " + str(bot.user.id), "INFO")
+    logger.logDebug("--------------------------------------", "INFO")
     print("\n")
 
-    logging.logDebug("The bot is ready!", "INFO")
+    logger.logDebug("The bot is ready!", "INFO")
     print("\n")
 
 
 @bot.event
 async def on_ready():
-    logging.logDebug("Prunus has (re)connected to Discord!")
+    logger.logDebug("Prunus has (re)connected to Discord!")
 
-    logging.logDebug("Checking the welcome channel!", "INFO")
+    logger.logDebug("Checking the welcome channel!", "INFO")
     await welcome_channel()
-    logging.logDebug("Done checking the welcome channel!", "INFO")
+    logger.logDebug("Done checking the welcome channel!", "INFO")
     print("\n")
 
 
@@ -250,11 +247,11 @@ async def on_command_error(ctx: commands.Context, error):
         return
     else:
         await ctx.send("Something went wrong while executing that command... Sorry!")
-        await logging.log(error, bot, "ERROR")
+        await logger.log(error, bot, "ERROR")
 
 @bot.event
 async def on_guild_join(guild):
-    await logging.log("Joined a new guild (`%s` - `%s`)" % (guild.name, guild.id), bot, "INFO")
+    await logger.log("Joined a new guild (`%s` - `%s`)" % (guild.name, guild.id), bot, "INFO")
 
 @bot.event
 async def on_member_update(before, after):
@@ -264,11 +261,11 @@ async def on_member_update(before, after):
     for role in after.roles:
         if role.id == 530778945105428501:
             emojis = bot.emojis
+            emote = u"\U0001F4E5"
             for emoji in emojis:
                 if emoji.id == 561907145231171625:
                     emote = "<:" + emoji.name + ":" + str(emoji.id) + ">"
                     break
-                emote = u"\U0001F4E5"
             
             channel = bot.get_channel(665922203686273054)
 
@@ -277,7 +274,7 @@ async def on_member_update(before, after):
             embed.set_footer(text="New Member of Treeland", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
             embed.set_thumbnail(url=after.avatar_url)
             await channel.send(embed=embed)
-            await logging.log("A member just got the rising role... %s#%s" % (after.name, after.discriminator), bot, "INFO")
+            await logger.log("A member just got the rising role... %s#%s" % (after.name, after.discriminator), bot, "INFO")
 
 @bot.event
 async def on_message(message:discord.Message):
@@ -286,20 +283,20 @@ async def on_message(message:discord.Message):
     ctx:commands.Context = await bot.get_context(message)
     if message.content.startswith(os.getenv('prefix')):
         if ctx.command is not None:
-            await logging.log("`%s` (%s) used the `%s` command in the guild `%s` (%s), in the channel `%s` (%s)" % (ctx.author.name, ctx.author.id, ctx.invoked_with, ctx.guild.name, ctx.guild.id, ctx.channel.name, ctx.channel.id), bot, "INFO")
+            await logger.log("`%s` (%s) used the `%s` command in the guild `%s` (%s), in the channel `%s` (%s)" % (ctx.author.name, ctx.author.id, ctx.invoked_with, ctx.guild.name, ctx.guild.id, ctx.channel.name, ctx.channel.id), bot, "INFO")
             await bot.invoke(ctx)
     else:
         return
 
 if __name__ == '__main__':
     # we setup the logger first
-    logging.setup_logger()
+    logger.setup_logger()
     # load extensions
     for extension in startup_extensions:
         try:
             bot.load_extension(f"cogs.{extension}")
         except Exception as e:
-            logging.log(f"Failed to load extension {extension}. - {e}", bot, "ERROR")
+            logger.log(f"Failed to load extension {extension}. - {e}", bot, "ERROR")
     bot.load_extension("jishaku")
 
 bot.run(os.getenv('token'))

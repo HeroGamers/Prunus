@@ -1,6 +1,6 @@
 import praw
 import os
-from Util import logging
+from Util import logger
 
 reddit = praw.Reddit(user_agent=os.getenv('reddit_bot_name'),
                      client_id=os.getenv('reddit_bot_id'), client_secret=os.getenv('reddit_bot_secret'),

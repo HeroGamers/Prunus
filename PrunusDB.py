@@ -1,6 +1,6 @@
 from peewee import SqliteDatabase, Model, CharField, DateTimeField, BooleanField, IntegrityError
 import datetime
-from Util import logging
+from Util import logger
 
 db = SqliteDatabase('./prunusDB.db')
 
@@ -21,7 +21,7 @@ async def add_TreelanderOfTheDay(userid, name, bot):
         TreelanderOfTheDay.create(UserID=userid, DiscordTag=name, Time=date,
                                   IsTreelanderOfTheDay=True)
     except IntegrityError as e:
-        await logging.log("DB Notice: Date Already Used! - " + str(e), bot, "DEBUG")
+        await logger.log("DB Notice: Date Already Used! - " + str(e), bot, "DEBUG")
 
 
 def remove_TreelanderOfTheDay(userid, deepRemoval):
@@ -37,7 +37,7 @@ def get_currentTreelanderOfTheDay():
     try:
         return query[0].UserID
     except IndexError:
-        return "";
+        return ""
 
 
 def get_currentTreelanderOfTheDayTime():
@@ -45,7 +45,7 @@ def get_currentTreelanderOfTheDayTime():
     try:
         return query[0].Time
     except IndexError:
-        return "";
+        return ""
 
 
 def create_tables():
