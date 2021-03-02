@@ -5,6 +5,12 @@ from discord import Embed
 import os
 from Util import logger
 
+# import config
+try:
+    import config
+except ImportError:
+    print("Couldn't import config.py! Exiting!")
+    exit()
 
 stream = discord.Streaming(name="Hero's channel on Twitch!", url="https://www.twitch.tv/herogamers",
                                twitch_name="herogamers")
