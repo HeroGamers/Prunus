@@ -299,4 +299,7 @@ if __name__ == '__main__':
             logger.log(f"Failed to load extension {extension}. - {e}", bot, "ERROR")
     bot.load_extension("jishaku")
 
-bot.run(os.getenv('token'))
+try:
+    bot.run(os.getenv('token'))
+except Exception as e:
+    logger.logException("Running bot exception!", e)

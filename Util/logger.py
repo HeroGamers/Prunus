@@ -84,3 +84,9 @@ async def logEmbed(color, description, bot, debug=""):
         logDebug(description)
         return
     logDebug(debug)
+
+
+def logException(message, error):
+    logger = logging.getLogger("Prunus")
+
+    logger.exception(message, exc_info=(type(error), error, error.__traceback__))
