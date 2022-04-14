@@ -104,9 +104,15 @@ class Tasks(commands.Cog):
             logger.logDebug("totD_id is not empty, removing role")
             totD = None
             try:
-                totD = await treeland.fetch_member(int(totD_id))
+                totD = treeland.get_member(int(totD_id))
             except Exception as e:
-                logger.logDebug("Error while fetching member: " + str(e))
+                logger.logDebug("Error while getting member: " + str(e))
+            if not totD:
+                try:
+                    totD = await treeland.fetch_member(int(totD_id))
+                except Exception as e:
+                    logger.logDebug("Error while fetching member: " + str(e))
+            
             if totD is not None:
                 logger.logDebug("user is not null")
                 logger.logDebug("got user: " + totD.name)
