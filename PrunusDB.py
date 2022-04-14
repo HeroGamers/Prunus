@@ -1,4 +1,4 @@
-from peewee import SqliteDatabase, Model, CharField, DateTimeField, BooleanField, IntegrityError
+from peewee import SqliteDatabase, Model, CharField, DateTimeField, BooleanField, IntegrityError, CompositeKey
 import datetime
 from Util import logger
 
@@ -48,9 +48,50 @@ def get_currentTreelanderOfTheDayTime():
         return ""
 
 
+class FreeGames(Model):
+    Title = CharField(null=False)
+    From = DateTimeField(null=False, default=datetime.datetime.now())
+    To = DateTimeField(null=False)
+    Platform = CharField(null=False)
+
+    class Meta:
+        primary_key = CompositeKey("Title", "From", "To", "Platform")
+        database = db
+
+
+def new_free_game(title, startdate, enddate, platform="epicgames"):
+    try:
+        FreeGames.create(Title=title, From=startdate, To=enddate, Platform=platform)
+    except IntegrityError as e:
+        logger.logDebug("Couldn't add free game: " + str(e))
+
+
+def get_free_game(title, platform=None):
+    if not platform:
+        query = FreeGames.select().where(FreeGames.Title == title)
+    else:
+        query = FreeGames.select().where((FreeGames.Title == title) & (FreeGames.Platform == platform))
+
+    if query.exists():
+        return query
+    return []
+
+
+def get_free_game_checked(title, platform=None, time=datetime.datetime.now()):
+    if not platform:
+        query = FreeGames.select().where((FreeGames.Title == title) & (FreeGames.From <= time) & (time <= FreeGames.To))
+    else:
+        query = FreeGames.select().where((FreeGames.Title == title) & (FreeGames.Platform == platform) & (FreeGames.From <= time) & (time <= FreeGames.To))
+
+    if query.exists():
+        return query
+    return None
+
+
+
 def create_tables():
     with db:
-        db.create_tables([TreelanderOfTheDay])
+        db.create_tables([TreelanderOfTheDay, FreeGames])
 
 
 create_tables()

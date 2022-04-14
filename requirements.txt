@@ -1,3 +1,4 @@
 discord.py==1.6.0
 peewee==3.14.0
 jishaku==1.18.2.188
+python-dateutil
