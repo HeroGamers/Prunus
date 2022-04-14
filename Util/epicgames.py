@@ -47,7 +47,7 @@ async def get_free_games():
                             # print("promotionaloffer has promotional offer")
                             for innerPromotionalOffer in promotionalOffer["promotionalOffers"]:
                                 # print("inner promotional offer loop")
-                                print(innerPromotionalOffer)
+                                # print(innerPromotionalOffer)
                                 if "discountSetting" in innerPromotionalOffer and "discountPercentage" in innerPromotionalOffer["discountSetting"]:
                                     # print("offer has discount setting and percentage")
                                     if "startDate" in innerPromotionalOffer and "endDate" in innerPromotionalOffer:
