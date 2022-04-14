@@ -102,7 +102,11 @@ class Tasks(commands.Cog):
         await PrunusDB.add_TreelanderOfTheDay(user.id, user.name + user.discriminator, self.bot)
         if totD_id != "" and len(totD_id) != 0:
             logger.logDebug("totD_id is not empty, removing role")
-            totD = await treeland.fetch_member(int(totD_id))
+            totD = None
+            try:
+                totD = await treeland.fetch_member(int(totD_id))
+            except Exception as e:
+                logger.logDebug("Error while fetching member: " + str(e))
             if totD is not None:
                 logger.logDebug("user is not null")
                 logger.logDebug("got user: " + totD.name)
