@@ -13,9 +13,11 @@ class Tasks(commands.Cog):
         self.bot = bot
         self.treelanderOfTheDay.start()
         self.lastEpicGamesCheck = datetime.datetime.utcnow() - datetime.timedelta(days=365)
+        self.freeGames.start()
 
     def cog_unload(self):
         self.treelanderOfTheDay.cancel()
+        self.freeGames.cancel()
 
     @tasks.loop(seconds=60.0)
     async def freeGames(self):
@@ -103,6 +105,7 @@ class Tasks(commands.Cog):
                 await self.newTreelanderOfTheDay(totD_id)
 
     @treelanderOfTheDay.before_loop
+    @freeGames.before_loop
     async def before_loop(self):
         logger.logDebug('waiting...')
         await self.bot.wait_until_ready()
