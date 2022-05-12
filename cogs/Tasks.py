@@ -48,10 +48,10 @@ class Tasks(commands.Cog):
                                 alreadyChecked = True
                                 break
                     if not alreadyChecked:
-                        PrunusDB.new_free_game(game["title"], game["startDate"], game["endDate"])
-                        game["url"] = "https://store.epicgames.com/p/" + game["productSlug"]
-                        game["platform"] = "Epic Games"
-                        games_to_send.append(game)
+                        if PrunusDB.new_free_game(game["title"], game["startDate"], game["endDate"]):
+                            game["url"] = "https://store.epicgames.com/p/" + game["productSlug"]
+                            game["platform"] = "Epic Games"
+                            games_to_send.append(game)
 
             # send em'
             if games_to_send:

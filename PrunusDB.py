@@ -62,8 +62,10 @@ class FreeGames(Model):
 def new_free_game(title, startdate, enddate, platform="epicgames"):
     try:
         FreeGames.create(Title=title, From=startdate, To=enddate, Platform=platform)
+        return True
     except IntegrityError as e:
         logger.logDebug("Couldn't add free game: " + str(e))
+    return False
 
 
 def get_free_game(title, platform=None):
@@ -77,7 +79,7 @@ def get_free_game(title, platform=None):
     return []
 
 
-def get_free_game_checked(title, platform=None, time=datetime.datetime.now()):
+def get_free_game_checked(title, platform=None, time=datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc)):
     if not platform:
         query = FreeGames.select().where((FreeGames.Title == title) & (FreeGames.From <= time) & (time <= FreeGames.To))
     else:
@@ -86,7 +88,6 @@ def get_free_game_checked(title, platform=None, time=datetime.datetime.now()):
     if query.exists():
         return query
     return None
-
 
 
 def create_tables():
