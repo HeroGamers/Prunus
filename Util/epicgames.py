@@ -89,18 +89,18 @@ async def get_free_games():
             # ]
             # get product slugs
             for game in games:
+                if "catalogNs" in game and "mappings" in game["catalogNs"]:
+                    for mapping in game["catalogNs"]["mappings"]:
+                        if "pageType" in mapping and mapping["pageType"] == "productHome":
+                            game["productSlug"] = mapping["pageSlug"]
+                            break
                 if "productSlug" not in game or not game["productSlug"]:
                     if "customAttributes" in game:
                         for attribute in game["customAttributes"]:
                             if "key" in attribute and attribute["key"] == "com.epicgames.app.productSlug":
                                 game["productSlug"] = attribute["value"]
                                 break
-                    if "productSlug" not in game or not game["productSlug"]:
-                        if "catalogNs" in game and "mappings" in game["catalogNs"]:
-                            for mapping in game["catalogNs"]["mappings"]:
-                                if "pageType" in mapping and mapping["pageType"] == "productHome":
-                                    game["productSlug"] = mapping["pageSlug"]
-                                    break
+                        
     except Exception as e:
         logger.logDebug("Error while getting games from epic games: " + str(e))
         # print("Error while getting games from epic games: " + str(e))
