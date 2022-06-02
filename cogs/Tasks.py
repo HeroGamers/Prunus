@@ -34,7 +34,10 @@ class Tasks(commands.Cog):
             dt = datetime.datetime.utcnow()
             games_to_send = []
             # epic games
-            last_epic_release = dt + dateutil.relativedelta.relativedelta(weekday=dateutil.relativedelta.TH(-1), hour=15, minute=0, second=0, microsecond=0)
+            if dt.weekday() == 3:
+                last_epic_release = dt + dateutil.relativedelta.relativedelta(weekday=dateutil.relativedelta.TH(-2), hour=15, minute=0, second=0, microsecond=0)
+            else:
+                last_epic_release = dt + dateutil.relativedelta.relativedelta(weekday=dateutil.relativedelta.TH(-1), hour=15, minute=0, second=0, microsecond=0)
             if self.lastEpicGamesCheck < last_epic_release:
                 # check
                 self.lastEpicGamesCheck = dt
@@ -49,7 +52,10 @@ class Tasks(commands.Cog):
                                 break
                     if not alreadyChecked:
                         if PrunusDB.new_free_game(game["title"], game["startDate"], game["endDate"]):
-                            game["url"] = "https://store.epicgames.com/p/" + game["productSlug"]
+                            if "offerType" in game and game["offerType"] == "BUNDLE":
+                                game["url"] = "https://epicgames.com/bundles/" + game["productSlug"]
+                            else:
+                                game["url"] = "https://epicgames.com/p/" + game["productSlug"]
                             game["platform"] = "Epic Games"
                             games_to_send.append(game)
 
