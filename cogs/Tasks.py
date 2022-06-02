@@ -34,7 +34,7 @@ class Tasks(commands.Cog):
             dt = datetime.datetime.utcnow()
             games_to_send = []
             # epic games
-            if dt.weekday() == 3:
+            if dt.weekday() == 3 and dt.hour < 15:
                 last_epic_release = dt + dateutil.relativedelta.relativedelta(weekday=dateutil.relativedelta.TH(-2), hour=15, minute=0, second=0, microsecond=0)
             else:
                 last_epic_release = dt + dateutil.relativedelta.relativedelta(weekday=dateutil.relativedelta.TH(-1), hour=15, minute=0, second=0, microsecond=0)
