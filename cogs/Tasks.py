@@ -22,7 +22,7 @@ class Tasks(commands.Cog):
     @tasks.loop(seconds=60.0)
     async def freeGames(self):
         logger.logDebug("Free games task")
-        channel_id = 964261988307959889
+        channel_id = 547142909657481216
         channel = self.bot.get_channel(channel_id)
         if not channel:
             try:
@@ -69,14 +69,21 @@ class Tasks(commands.Cog):
                 if games_message:
                     try:
                         message = await channel.send(games_message)
-                        # if message and channel.is_news():
-                        #     try:
-                        #         await message.publish()
-                        #     except Exception as e:
-                        #         await logger.log("Failed to publish message to announcement channel", self.bot, "ERROR", debug="Failed to send free game message: " + str(e))
+                        if message:
+                            # ping free-games
+                            try:
+                                ping_message = await channel.send("<@547142554508853264>")
+                            except Exception as e:
+                                await logger.log("Failed to send free game ping", self.bot, "ERROR", debug="Failed to send free game ping: " + str(e))
+
+                            # publish message
+                            if channel.is_news():
+                                try:
+                                    await message.publish()
+                                except Exception as e:
+                                    await logger.log("Failed to publish message to announcement channel", self.bot, "ERROR", debug="Failed to send free game message: " + str(e))
                     except Exception as e:
                         await logger.log("Failed to send free game message", self.bot, "ERROR", debug="Failed to send free game message: " + str(e))
-
 
     @tasks.loop(seconds=60.0)
     async def treelanderOfTheDay(self):
