@@ -72,7 +72,7 @@ class Tasks(commands.Cog):
                         if message:
                             # ping free-games
                             try:
-                                ping_message = await channel.send("<@547142554508853264>")
+                                ping_message = await channel.send("<@&547142554508853264>")
                             except Exception as e:
                                 await logger.log("Failed to send free game ping", self.bot, "ERROR", debug="Failed to send free game ping: " + str(e))
 
