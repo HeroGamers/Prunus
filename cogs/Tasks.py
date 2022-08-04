@@ -31,33 +31,37 @@ class Tasks(commands.Cog):
                 logger.logDebug("Error while fetching channel: " + str(e))
 
         if channel:
-            dt = datetime.datetime.utcnow()
+            # dt = datetime.datetime.utcnow()
             games_to_send = []
             # epic games
-            if dt.weekday() == 3 and dt.hour < 15:
-                last_epic_release = dt + dateutil.relativedelta.relativedelta(weekday=dateutil.relativedelta.TH(-2), hour=15, minute=0, second=0, microsecond=0)
-            else:
-                last_epic_release = dt + dateutil.relativedelta.relativedelta(weekday=dateutil.relativedelta.TH(-1), hour=15, minute=0, second=0, microsecond=0)
-            if self.lastEpicGamesCheck < last_epic_release:
-                # check
-                self.lastEpicGamesCheck = dt
-                games = await epicgames.get_free_games()
-                for game in games:
-                    alreadyChecked = False
-                    dbGames = PrunusDB.get_free_game_checked(game["title"])
-                    if dbGames:
-                        for dbGame in dbGames:
-                            if dbGame.Platform == "epicgames":
-                                alreadyChecked = True
-                                break
-                    if not alreadyChecked:
-                        if PrunusDB.new_free_game(game["title"], game["startDate"], game["endDate"]):
-                            if "offerType" in game and game["offerType"] == "BUNDLE":
-                                game["url"] = "https://epicgames.com/bundles/" + game["productSlug"]
-                            else:
-                                game["url"] = "https://epicgames.com/p/" + game["productSlug"]
-                            game["platform"] = "Epic Games"
-                            games_to_send.append(game)
+            # if dt.weekday() == 3 and dt.hour < 15:
+            #     last_epic_release = dt + dateutil.relativedelta.relativedelta(weekday=dateutil.relativedelta.TH(-2), hour=15, minute=0, second=0, microsecond=0)
+            # else:
+            #     last_epic_release = dt + dateutil.relativedelta.relativedelta(weekday=dateutil.relativedelta.TH(-1), hour=15, minute=0, second=0, microsecond=0)
+            # if self.lastEpicGamesCheck < last_epic_release:
+            #     # check
+            #     self.lastEpicGamesCheck = dt
+
+            # so, I decided to pull a pro-gamer move, and just let it smack the Epic API every minute :)
+            # because apparently it can fail, if Epic is slow at updating, soooo.. sorry not sorry - I might
+            # add a higher "timeout" tho
+            games = await epicgames.get_free_games()
+            for game in games:
+                alreadyChecked = False
+                dbGames = PrunusDB.get_free_game_checked(game["title"])
+                if dbGames:
+                    for dbGame in dbGames:
+                        if dbGame.Platform == "epicgames":
+                            alreadyChecked = True
+                            break
+                if not alreadyChecked:
+                    if PrunusDB.new_free_game(game["title"], game["startDate"], game["endDate"]):
+                        if "offerType" in game and game["offerType"] == "BUNDLE":
+                            game["url"] = "https://epicgames.com/bundles/" + game["productSlug"]
+                        else:
+                            game["url"] = "https://epicgames.com/p/" + game["productSlug"]
+                        game["platform"] = "Epic Games"
+                        games_to_send.append(game)
 
             # send em'
             if games_to_send:
