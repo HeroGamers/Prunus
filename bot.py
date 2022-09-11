@@ -154,7 +154,7 @@ async def welcome_channel():
                                       "<:denyhammer:586250559653281809> **botsupport:** Are you here in need of "
                                       "Support for bots developed by Hero (like WatchDog)? Get yourself the "
                                       "botsupport role!\n"
-                                      "<:sad:750066286872232056> **anti-totd:** Are you tired of getting randomly "
+                                      "<a:sad:750066286872232056> **anti-totd:** Are you tired of getting randomly "
                                       "pinged just to let you know that today YOU are awesome and special? Well, "
                                       "fine then - not like we liked you anyway, b-baka! >//<\n"
                                       "\n "
