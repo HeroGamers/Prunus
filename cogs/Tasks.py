@@ -135,6 +135,7 @@ class Tasks(commands.Cog):
         guild_id = 221996778092888065
         role_id = 638480387403677727
         risings_role_id = 530778945105428501
+        optout_role_id = 1018545061962731620
         channel_id = 665922203686273054
         emote_id = 584529307402240000
 
@@ -146,89 +147,96 @@ class Tasks(commands.Cog):
         logger.logDebug('got role')
         treelanders = []
         async for member in treeland.fetch_members(limit=None):
-            if risings_role_id in [role.id for role in member.roles]:
+            member_roles = [role.id for role in member.roles]
+            if risings_role_id in member_roles and optout_role_id not in member_roles:
                 treelanders.append(member)
-        logger.logDebug('got members of rising role')
+        logger.logDebug('got members of rising role and without opt-out')
 
         # Do random seed with date and time
         random.seed(int(datetime.datetime.now().strftime("%d%m%Y%H%M%S%f")))
 
-        while True:
+        user = None
+        while True: # lol this could technically loop forever
             logger.logDebug('while loop')
-            user = random.choice(treelanders)
-            logger.logDebug('got random user: ' + user.name)
-            if user.bot:
+            try_user = random.choice(treelanders)
+            logger.logDebug('got random user: ' + try_user.name)
+            if try_user.bot:
                 logger.logDebug("user is a bot")
             elif totD_id == "" or len(totD_id) == 0:
                 logger.logDebug('todays treelander id is 0, found new treelander of the day')
+                user = try_user
                 break
-            elif totD_id == str(user.id):
+            elif totD_id == str(try_user.id):
                 logger.logDebug("User is already treelander of the day")
             else:
                 logger.logDebug('new treelander of the day found!')
+                user = try_user
                 break
             logger.logDebug("help")
         logger.logDebug('out of while loop')
-        try:
-            await user.add_roles(treelanderoftheday_role, reason="Treelander of the Day!")
-        except Exception as e:
-            await logger.log("Error trying to add the treelander of the day role: " + str(e), self.bot)
-            return
-        logger.logDebug('added role')
-        await PrunusDB.add_TreelanderOfTheDay(user.id, user.name + user.discriminator, self.bot)
-        if totD_id != "" and len(totD_id) != 0:
-            logger.logDebug("totD_id is not empty, removing role")
-            totD = None
+        if user:
             try:
-                totD = treeland.get_member(int(totD_id))
+                await user.add_roles(treelanderoftheday_role, reason="Treelander of the Day!")
             except Exception as e:
-                logger.logDebug("Error while getting member: " + str(e))
-            if not totD:
+                await logger.log("Error trying to add the treelander of the day role: " + str(e), self.bot)
+                return
+            logger.logDebug('added role')
+            await PrunusDB.add_TreelanderOfTheDay(user.id, user.name + user.discriminator, self.bot)
+            if totD_id != "" and len(totD_id) != 0:
+                logger.logDebug("totD_id is not empty, removing role")
+                totD = None
                 try:
-                    totD = await treeland.fetch_member(int(totD_id))
+                    totD = treeland.get_member(int(totD_id))
                 except Exception as e:
-                    logger.logDebug("Error while fetching member: " + str(e))
+                    logger.logDebug("Error while getting member: " + str(e))
+                if not totD:
+                    try:
+                        totD = await treeland.fetch_member(int(totD_id))
+                    except Exception as e:
+                        logger.logDebug("Error while fetching member: " + str(e))
 
-            if totD is not None:
-                logger.logDebug("user is not null")
-                logger.logDebug("got user: " + totD.name)
+                if totD is not None:
+                    logger.logDebug("user is not null")
+                    logger.logDebug("got user: " + totD.name)
+                    try:
+                        await totD.remove_roles(treelanderoftheday_role, reason="No longer the Treelander of the Day!")
+                    except Exception as e:
+                        await logger.log("Error trying to remove the treelander of the day role: " + str(e), self.bot)
+                        return
+                    logger.logDebug('removed role')
+                else:
+                    logger.logDebug("Member is null")
+                PrunusDB.remove_TreelanderOfTheDay(user.id, True) # Removes Treelander of the Day status from everyone
+                                                                  # BUT the user who got it today!
+            logger.logDebug("sending embed")
+
+            channel = self.bot.get_channel(channel_id)
+            if not channel:
                 try:
-                    await totD.remove_roles(treelanderoftheday_role, reason="No longer the Treelander of the Day!")
+                    channel = await self.bot.fetch_channel(channel_id)
                 except Exception as e:
-                    await logger.log("Error trying to remove the treelander of the day role: " + str(e), self.bot)
-                    return
-                logger.logDebug('removed role')
-            else:
-                logger.logDebug("Member is null")
-            PrunusDB.remove_TreelanderOfTheDay(user.id, True) # Removes Treelander of the Day status from everyone
-                                                              # BUT the user who got it today!
-        logger.logDebug("sending embed")
+                    logger.logDebug("Error while fetching channel: " + str(e))
 
-        channel = self.bot.get_channel(channel_id)
-        if not channel:
-            try:
-                channel = await self.bot.fetch_channel(channel_id)
-            except Exception as e:
-                logger.logDebug("Error while fetching channel: " + str(e))
+            emojis = self.bot.emojis
+            emote = u"\U0001F333"
+            for emoji in emojis:
+                if emoji.id == emote_id:
+                    emote = "<:" + emoji.name + ":" + str(emoji.id) + ">"
+                    break
 
-        emojis = self.bot.emojis
-        emote = u"\U0001F333"
-        for emoji in emojis:
-            if emoji.id == emote_id:
-                emote = "<:" + emoji.name + ":" + str(emoji.id) + ">"
-                break
-
-        embed = discord.Embed(title="New Treelander of the Day!",
-                              color=discord.Color.from_rgb(22, 198, 12), timestamp=datetime.datetime.utcnow(),
-                              description=emote + " " + user.name + " is now the Treelander of the Day! Congrats!")
-        embed.set_footer(text="New Treelander of the Day",
-                         icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
-        embed.set_thumbnail(url=user.avatar_url)
-        await channel.send(content="Congratulations, <@" + str(
-                                  user.id) + ">!", embed=embed)
-        await logger.log(
-            "A member just became Treelander of the Day... %s#%s" % (user.name, user.discriminator),
-            self.bot, "INFO")
+            embed = discord.Embed(title="New Treelander of the Day!",
+                                  color=discord.Color.from_rgb(22, 198, 12), timestamp=datetime.datetime.utcnow(),
+                                  description=emote + " " + user.name + " is now the Treelander of the Day! Congrats!")
+            embed.set_footer(text="New Treelander of the Day",
+                             icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+            embed.set_thumbnail(url=user.avatar_url)
+            await channel.send(content="Congratulations, <@" + str(
+                                      user.id) + ">!", embed=embed)
+            await logger.log(
+                "A member just became Treelander of the Day... %s#%s" % (user.name, user.discriminator),
+                self.bot, "INFO")
+        else:
+            await logger.log("COULD NOT GET USER FOR TOTD TASK!!!!!!", self.bot, "ERROR")
 
 
 def setup(bot):

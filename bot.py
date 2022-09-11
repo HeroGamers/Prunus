@@ -48,7 +48,7 @@ async def welcome_channel():
                                       "We don't want to bore someone to death with a huge list of rules, so we only "
                                       "have a few, but we still expect all of you to follow them "
                                       "<a:hugheart:646102861243088925>")
-    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/237223522710192129/1018543998840873060/Treeland2.gif")
     welcomeembeds.append(embed)
     # --- Rules image ---
     embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
@@ -72,7 +72,7 @@ async def welcome_channel():
                                       "**4.** Stick to the [Discord Community Guidelines](https://dis.gd/guidelines) "
                                       "(as well as the [Discord Partnership Code of Conduct]("
                                       "https://dis.gd/partnercoc)).")
-    embed.set_footer(text="The Treeland Community - Our rules are subject to change without notice.", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+    embed.set_footer(text="The Treeland Community - Our rules are subject to change without notice.", icon_url="https://cdn.discordapp.com/attachments/237223522710192129/1018543998840873060/Treeland2.gif")
     welcomeembeds.append(embed)
     # --- Roles image ---
     embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
@@ -113,7 +113,7 @@ async def welcome_channel():
                                       "**:balloon: 🢡 Risings:** You might be familiar with this role, well it's the "
                                       "role you got when you first got here. It's the role for people that are on "
                                       "their way up the rankings.\n")
-    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/237223522710192129/1018543998840873060/Treeland2.gif")
     welcomeembeds.append(embed)
     # --- Invite image ---
     embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
@@ -130,7 +130,7 @@ async def welcome_channel():
                                       "**Twitter** - [@TheTreeland](https://twitter.com/TheTreeland)\n"
                                       "**Discord** - [discord.gg/PvFPEfd](https://discord.gg/PvFPEfd) or "
                                       "[treeland.herogamers.xyz](https://treeland.herogamers.xyz)")
-    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/237223522710192129/1018543998840873060/Treeland2.gif")
     welcomeembeds.append(embed)
     # --- Opt-in/opt-out roles image ---
     embed = discord.Embed(color=discord.Color.from_rgb(255, 105, 180))
@@ -153,10 +153,13 @@ async def welcome_channel():
                                       "content still has no place in Treeland.\n"
                                       "<:denyhammer:586250559653281809> **botsupport:** Are you here in need of "
                                       "Support for bots developed by Hero (like WatchDog)? Get yourself the "
-                                      "botsupport role!\n\n "
-
+                                      "botsupport role!\n"
+                                      "<:sad:750066286872232056> **anti-totd: Are you tired of getting randomly "
+                                      "pinged just to let you know that today YOU are awesome and special? Well, "
+                                      "fine then - not like we liked you anyway, b-baka! >//<\n"
+                                      "\n "
                                       "***To opt for the roles, react to this message with the emotes used above!***")
-    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/513770658589704204/588464009217310771/Treeland2.gif")
+    embed.set_footer(text="The Treeland Community", icon_url="https://cdn.discordapp.com/attachments/237223522710192129/1018543998840873060/Treeland2.gif")
     welcomeembeds.append(embed)
 
 
