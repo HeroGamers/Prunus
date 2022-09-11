@@ -1,8 +1,10 @@
 import datetime
+import dateutil.relativedelta
 import random
 import discord
 from discord.ext import tasks, commands
 import PrunusDB
+from Util import epicgames
 from Util import logger
 
 
@@ -10,9 +12,82 @@ class Tasks(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.treelanderOfTheDay.start()
+        self.lastEpicGamesCheck = datetime.datetime.utcnow() - datetime.timedelta(days=365)
+        self.freeGames.start()
 
     def cog_unload(self):
         self.treelanderOfTheDay.cancel()
+        self.freeGames.cancel()
+
+    @tasks.loop(seconds=60.0)
+    async def freeGames(self):
+        logger.logDebug("Free games task")
+        channel_id = 547142909657481216
+        channel = self.bot.get_channel(channel_id)
+        if not channel:
+            try:
+                channel = await self.bot.fetch_channel(channel_id)
+            except Exception as e:
+                logger.logDebug("Error while fetching channel: " + str(e))
+
+        if channel:
+            # dt = datetime.datetime.utcnow()
+            games_to_send = []
+            # epic games
+            # if dt.weekday() == 3 and dt.hour < 15:
+            #     last_epic_release = dt + dateutil.relativedelta.relativedelta(weekday=dateutil.relativedelta.TH(-2), hour=15, minute=0, second=0, microsecond=0)
+            # else:
+            #     last_epic_release = dt + dateutil.relativedelta.relativedelta(weekday=dateutil.relativedelta.TH(-1), hour=15, minute=0, second=0, microsecond=0)
+            # if self.lastEpicGamesCheck < last_epic_release:
+            #     # check
+            #     self.lastEpicGamesCheck = dt
+
+            # so, I decided to pull a pro-gamer move, and just let it smack the Epic API every minute :)
+            # because apparently it can fail, if Epic is slow at updating, soooo.. sorry not sorry - I might
+            # add a higher "timeout" tho
+            games = await epicgames.get_free_games()
+            for game in games:
+                alreadyChecked = False
+                dbGames = PrunusDB.get_free_game_checked(game["title"])
+                if dbGames:
+                    for dbGame in dbGames:
+                        if dbGame.Platform == "epicgames":
+                            alreadyChecked = True
+                            break
+                if not alreadyChecked:
+                    if PrunusDB.new_free_game(game["title"], game["startDate"], game["endDate"]):
+                        if "offerType" in game and game["offerType"] == "BUNDLE":
+                            game["url"] = "https://epicgames.com/bundles/" + game["productSlug"]
+                        else:
+                            game["url"] = "https://epicgames.com/p/" + game["productSlug"]
+                        game["platform"] = "Epic Games"
+                        games_to_send.append(game)
+
+            # send em'
+            if games_to_send:
+                game_messages = []
+                for game in games_to_send:
+                    game_messages.append(f"[{game['platform']} - {game['title']}] <{game['url']}>")
+
+                games_message = "\n".join(game_messages)
+                if games_message:
+                    try:
+                        message = await channel.send(games_message)
+                        if message:
+                            # ping free-games
+                            try:
+                                ping_message = await channel.send("<@&547142554508853264>")
+                            except Exception as e:
+                                await logger.log("Failed to send free game ping", self.bot, "ERROR", debug="Failed to send free game ping: " + str(e))
+
+                            # publish message
+                            if channel.is_news():
+                                try:
+                                    await message.publish()
+                                except Exception as e:
+                                    await logger.log("Failed to publish message to announcement channel", self.bot, "ERROR", debug="Failed to send free game message: " + str(e))
+                    except Exception as e:
+                        await logger.log("Failed to send free game message", self.bot, "ERROR", debug="Failed to send free game message: " + str(e))
 
     @tasks.loop(seconds=60.0)
     async def treelanderOfTheDay(self):
@@ -47,6 +122,7 @@ class Tasks(commands.Cog):
                 await self.newTreelanderOfTheDay(totD_id)
 
     @treelanderOfTheDay.before_loop
+    @freeGames.before_loop
     async def before_loop(self):
         logger.logDebug('waiting...')
         await self.bot.wait_until_ready()
@@ -104,9 +180,15 @@ class Tasks(commands.Cog):
             logger.logDebug("totD_id is not empty, removing role")
             totD = None
             try:
-                totD = await treeland.fetch_member(int(totD_id))
+                totD = treeland.get_member(int(totD_id))
             except Exception as e:
-                logger.logDebug("Error while fetching member: " + str(e))
+                logger.logDebug("Error while getting member: " + str(e))
+            if not totD:
+                try:
+                    totD = await treeland.fetch_member(int(totD_id))
+                except Exception as e:
+                    logger.logDebug("Error while fetching member: " + str(e))
+
             if totD is not None:
                 logger.logDebug("user is not null")
                 logger.logDebug("got user: " + totD.name)
@@ -123,6 +205,11 @@ class Tasks(commands.Cog):
         logger.logDebug("sending embed")
 
         channel = self.bot.get_channel(channel_id)
+        if not channel:
+            try:
+                channel = await self.bot.fetch_channel(channel_id)
+            except Exception as e:
+                logger.logDebug("Error while fetching channel: " + str(e))
 
         emojis = self.bot.emojis
         emote = u"\U0001F333"
