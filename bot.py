@@ -1,16 +1,11 @@
+import traceback
+
 import discord
 import datetime
 from discord.ext import commands
 from discord import Embed
 import os
 from Util import logger
-
-# import config
-try:
-    import config
-except ImportError:
-    print("Couldn't import config.py! Exiting!")
-    exit()
 
 stream = discord.Streaming(name="Hero's channel on Twitch!", url="https://www.twitch.tv/herogamers",
                                twitch_name="herogamers")
@@ -305,7 +300,9 @@ if __name__ == '__main__':
         try:
             bot.load_extension(f"cogs.{extension}")
         except Exception as e:
-            logger.log(f"Failed to load extension {extension}. - {e}", bot, "ERROR")
+            logger.logDebug(f"Failed to load extension {extension}. - {e}")
+            # print traceback
+            traceback.print_exc()
     bot.load_extension("jishaku")
 
 try:

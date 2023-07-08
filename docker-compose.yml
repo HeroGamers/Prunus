@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  prunus:
+    hostname: prunus
+    build: .
+    restart: always
+    stop_signal: SIGINT
+    environment:
+      - MARIADB_HOST=prunus-database
+      - MARIADB_PORT=3306
+    env_file:
+      - database.env
+      - prunus.env
+    networks:
+      - prunus-network
+    depends_on:
+        - "prunus-database"
+  prunus-database:
+    hostname: prunus-database
+    image: mariadb
+    restart: always
+    security_opt:
+      - seccomp:unconfined
+    env_file:
+      - database.env
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3309:3306"
+    networks:
+      - prunus-network
+volumes:
+  db-data:
+networks:
+  prunus-network:
+    name: prunus-network
